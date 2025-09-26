@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-center">
+        <h1 class="display-5 fw-bold">Book Your Bus Tickets</h1>
+        <p class="lead">Fast, easy and reliable bus booking system</p>
+    </div>
+    <div class="card shadow-sm p-4 mb-5">
+        <h4 class="mb-3">Search Your Bus</h4>
+        <form method="POST" class="row g-3">
+            {% csrf_token %}
+            <div class="col-md-5">
+                <input type="text" name="bus_start" class="form-control" placeholder="From Station" required>
+            </div>
+            <div class="col-md-5">
+                <input type="text" name="destination" class="form-control" placeholder="To Station" required>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+
+    {% if buses %}
+    <h3 class="mb-3">Available Buses</h3>
+    <div class="row g-4">
+        {% for bus in buses %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ bus.bus_name }}</h5>
+                    <p class="card-text">
+                        <strong>From:</strong> {{ bus.bus_start }} <br>
+                        <strong>To:</strong> {{ bus.destination }} <br>
+                        <strong>Seats:</strong> {{ bus.available_seats }} <br>
+                        <strong>Price:</strong> ₹{{ bus.price }} <br>
+                        <strong>Departure:</strong> {{ bus.departure_time }}
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    {% if bus.available_seats > 0 %}
+                        <a href="{% url 'bus_book' bus.id %}" class="btn btn-success w-100">Book Now</a>
+                    {% else %}
+                        <span class="btn btn-outline-danger w-100 disabled">Full</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% elif buses is not None %}
+    <div class="alert alert-warning mt-4">No buses found for this route.</div>
+    {% endif %}
+</div>
+{% endblock %}

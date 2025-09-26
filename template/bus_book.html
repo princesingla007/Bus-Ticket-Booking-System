@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Page Title -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold">Confirm Your Booking</h1>
+        <p class="text-muted">Fill in your details to reserve your seat</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Bus Details Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">{{ bus.bus_name }}</h4>
+                    <p class="card-text">
+                        <strong>Route:</strong> {{ bus.bus_start }} → {{ bus.destination }} <br>
+                        <strong>Available Seats:</strong> {{ bus.available_seats }} <br>
+                        <strong>Ticket Price (per seat):</strong> ₹{{ bus.price }} <br>
+                        <strong>Departure Time:</strong> {{ bus.departure_time }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Passenger Details</h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Passenger Name</label>
+                            <input type="text" name="passenger_name" class="form-control" placeholder="Enter your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Number of Seats</label>
+                            <input type="number" name="seats_booked" class="form-control"
+                                   placeholder="Enter seats"
+                                   min="1" max="{{ bus.available_seats }}" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

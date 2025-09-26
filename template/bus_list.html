@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mt-4">List of All Buses</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Bus Name</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Available Seats</th>
+            <th>Departure</th>
+            <th>Bus Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for buses in bus %}
+        <tr>
+            <td>{{ buses.bus_name }}</td>
+            <td>{{ buses.bus_start }}</td>
+            <td>{{ buses.destination }}</td>
+            <td>{{ buses.available_seats }}</td>
+            <td>{{ buses.departure_time }}</td>
+            <td>{{ buses.bus_number }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}
